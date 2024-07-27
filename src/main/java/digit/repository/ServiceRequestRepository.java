@@ -49,10 +49,10 @@ public class ServiceRequestRepository {
 
     public List<Organisation> getOrganisations(OrgSearchCriteria searchCriteria) {
         List<Object> preparedStmtList = new ArrayList<>();
-        System.out.println("Inside Service repository ");
+//        System.out.println("Inside Service repository ");
         String query = queryBuilder.getOrganisationSearchQuery(searchCriteria, preparedStmtList);
 //        log.info("Final query: " + query);
-        System.out.println("Query " + query);
+//        System.out.println("Query " + query);
 //        return jdbcTemplate.query(query,);
         System.out.println(jdbcTemplate.query(query, preparedStmtList.toArray(), rowMapper));
         return jdbcTemplate.query(query, preparedStmtList.toArray(), rowMapper);

@@ -39,6 +39,12 @@ public class OrganisationsQueryBuilder {
         query.append(DOCUMENTS_SELECT_QUERY);
         query.append(FROM_TABLES);
 
+        // in search criteri id is List of Strings
+        if(!CollectionUtils.isEmpty(criteria.getId())){
+            addClauseIfRequired(query, preparedStmtList);
+            query.append(" org.id IN ( ").append(createQuery(criteria.getId())).append(" ) ");
+            addToPreparedStatement(preparedStmtList, criteria.getId());
+        }
         if(!ObjectUtils.isEmpty(criteria.getTenantId())){
             addClauseIfRequired(query, preparedStmtList);
             query.append(" org.tenant_id = ? ");

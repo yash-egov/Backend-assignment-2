@@ -32,7 +32,7 @@ public class OrgSearchCriteria   {
 
         @JsonProperty("tenantId")
 
-        @Size(min=2,max=1000)         private String tenantId = null;
+             private String tenantId = null;
 
         @JsonProperty("name")
 

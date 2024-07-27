@@ -86,11 +86,8 @@ public class OrgServicesApiController {
 
     @RequestMapping(value = "/org-services/organisation/v1/_search", method = RequestMethod.POST)
     public ResponseEntity<OrgResponse> orgServicesOrganisationV1SearchPost(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody OrgSearchCriteria body) {
-
-//        System.out.println("Searching..."+ body);
-        List<Organisation> organisations = organisationService.searchOrganisations(body);
         try {
-//            ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(body.getRequestInfo(), true);
+            List<Organisation> organisations = organisationService.searchOrganisations(body);
             OrgResponse response = OrgResponse.builder().organisations(organisations).build();
             return new ResponseEntity<OrgResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
