@@ -1,0 +1,106 @@
+serviceMaps:
+  serviceName: org-services
+  mappings:
+    - version: 1.0
+      description: Persists organisation details in tables
+      fromTopic: save-org-application
+      isTransaction: true
+      queryMaps:
+        - query: INSERT INTO organisations(id, tenant_id, name, application_status, external_ref_number, date_of_incorporation, is_active,additional_details,createdby,lastmodifiedby,createdtime,lastmodifiedtime) VALUES (?, ?, ?, ?, ?, ?, ?, hstore_to_jsonb(?),?,?,?,?);
+          basePath: organisations
+          jsonMaps:
+            - jsonPath: $.organisations.id
+            - jsonPath: $.organisations.tenantId
+            - jsonPath: $.organisations.name
+            - jsonPath: $.organisations.applicationStatus
+            - jsonPath: $.organisations.externalRefNumber
+            - jsonPath: $.organisations.dateOfIncorporation
+            - jsonPath: $.organisations.isActive
+            - jsonPath: $.organisations.additionalDetails
+            - jsonPath: $.organisations.*.auditDetails.createdBy
+            - jsonPath: $.organisations.*.auditDetails.lastModifiedBy
+            - jsonPath: $.organisations.*.auditDetails.createdTime
+            - jsonPath: $.organisations.*.auditDetails.lastModifiedTime
+
+        - query: INSERT INTO org_address(id, organisation_id, tenant_id, door_no, latitude, longitude, address_number, type, address_line1, address_line2, landmark, city, pincode, detail, building_name, street, boundary_code, boundary_name, boundary_label, boundary_latitude, boundary_longitude, boundary_children, boundary_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, hstore_to_jsonb(?), ?);
+
+          basePath: organisations.orgAddress.*
+          jsonMaps:
+            - jsonPath: $.organisations.orgAddress.*.id
+            - jsonPath: $.organisations.orgAddress.*.orgId
+            - jsonPath: $.organisations.orgAddress.*.tenantId
+            - jsonPath: $.organisations.orgAddress.*.doorNo
+            - jsonPath: $.organisations.orgAddress.*.latitude
+            - jsonPath: $.organisations.orgAddress.*.longitude
+            - jsonPath: $.organisations.orgAddress.*.addressNumber
+            - jsonPath: $.organisations.orgAddress.*.type
+            - jsonPath: $.organisations.orgAddress.*.addressLine1
+            - jsonPath: $.organisations.orgAddress.*.addressLine2
+            - jsonPath: $.organisations.orgAddress.*.landmark
+            - jsonPath: $.organisations.orgAddress.*.city
+            - jsonPath: $.organisations.orgAddress.*.pincode
+            - jsonPath: $.organisations.orgAddress.*.detail
+            - jsonPath: $.organisations.orgAddress.*.buildingName
+            - jsonPath: $.organisations.orgAddress.*.street
+            - jsonPath: $.organisations.orgAddress.*.boundary.name
+            - jsonPath: $.organisations.orgAddress.*.boundary.code
+            - jsonPath: $.organisations.orgAddress.*.boundary.label
+            - jsonPath: $.organisations.orgAddress.*.boundary.latitude
+            - jsonPath: $.organisations.orgAddress.*.boundary.longitude
+            - jsonPath: $.organisations.orgAddress.*.boundary.children
+            - jsonPath: $.organisations.orgAddress.*.boundaryType
+
+
+        - query: INSERT INTO contact_details(id, organisation_id, contact_name, contact_mobile_number, contact_email) VALUES (?, ?, ?, ?, ?);
+          basePath: organisations.contactDetails.*
+          jsonMaps:
+            - jsonPath: $.organisations.contactDetails.*.id
+            - jsonPath: $.organisations.contactDetails.*.orgId
+            - jsonPath: $.organisations.contactDetails.*.contactName
+            - jsonPath: $.organisations.contactDetails.*.contactMobileNumber
+            - jsonPath: $.organisations.contactDetails.*.contactEmail
+
+        - query: INSERT INTO identifier(id, organisation_id, type, value, is_active, additional_details) VALUES (?, ?, ?, ?, ?, hstore_to_jsonb(?));
+          basePath: organisations.identifiers.*
+          jsonMaps:
+            - jsonPath: $.organisations.identifiers.*.id
+            - jsonPath: $.organisations.identifiers.*.orgId
+            - jsonPath: $.organisations.identifiers.*.type
+            - jsonPath: $.organisations.identifiers.*.value
+            - jsonPath: $.organisations.identifiers.*.isActive
+            - jsonPath: $.organisations.identifiers.*.additionalDetails
+
+        - query: INSERT INTO functions(id, organisation_id, type, category, class, valid_from, valid_to, wf_status, is_active, application_status,additional_details) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,hstore_to_jsonb(?));
+          basePath: organisations.functions.*
+          jsonMaps:
+            - jsonPath: $.organisations.functions.*.id
+            - jsonPath: $.organisations.functions.*.orgId
+            - jsonPath: $.organisations.functions.*.type
+            - jsonPath: $.organisations.functions.*.category
+            - jsonPath: $.organisations.functions.*.class
+            - jsonPath: $.organisations.functions.*.validFrom
+            - jsonPath: $.organisations.functions.*.validTo
+            - jsonPath: $.organisations.functions.*.wfStatus
+            - jsonPath: $.organisations.functions.*.isActive
+            - jsonPath: $.organisations.functions.*.applicationStatus
+            - jsonPath: $.organisations.functions.*.additionalDetails
+
+        - query: INSERT INTO document(id, organisation_id,org_function_id ,document_type, file_store, document_uid, additional_details) VALUES (?,?, ?, ?, ?, ?, hstore_to_jsonb(?));
+          basePath: organisations.functions.*.documents.*
+          jsonMaps:
+            - jsonPath: $.organisations.functions.*.documents.*.id
+            - jsonPath: $.organisations.functions.*.documents.*.orgId
+            - jsonPath: $.organisations.functions.*.documents.*.orgFunctionId
+            - jsonPath: $.organisations.functions.*.documents.*.documentType
+            - jsonPath: $.organisations.functions.*.documents.*.fileStore
+            - jsonPath: $.organisations.functions.*.documents.*.documentUid
+            - jsonPath: $.organisations.functions.*.documents.*.additionalDetails
+
+        - query: INSERT INTO jurisdiction(id, organisation_id, code, jurisdiction_id, additional_details) VALUES (?, ?, ?, ?, hstore_to_jsonb(?));
+          basePath: organisations.jurisdiction.*
+          jsonMaps:
+            - jsonPath: $.organisations..jurisdiction.*.id
+            - jsonPath: $.organisations..jurisdiction.*.orgId
+            - jsonPath: $.organisations..jurisdiction.*.code
+            - jsonPath: $.organisations..jurisdiction.*.jurisdictionId
+            - jsonPath: $.organisations..jurisdiction.*.additionalDetails
