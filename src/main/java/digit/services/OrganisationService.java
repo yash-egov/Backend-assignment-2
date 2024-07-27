@@ -31,7 +31,6 @@ public class OrganisationService {
     }
 
     public  List<Organisation> searchOrganisations(OrgSearchCriteria body) {
-//        System.out.println("inside Organisation Service");
         List<Organisation> organisations = serviceRequestRepository.getOrganisations(body);
         return organisations;
     }

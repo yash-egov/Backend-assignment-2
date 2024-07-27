@@ -6,10 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="c785bd4c-cf19-4f58-acef-828f77b632cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/digit/enrichment/OrganisationEnrichment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/enrichment/OrganisationEnrichment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/digit/repository/ServiceRequestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/repository/ServiceRequestRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/digit/repository/querybuilder/OrganisationsQueryBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/repository/querybuilder/OrganisationsQueryBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/digit/repository/rowmapper/OrganisationRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/repository/rowmapper/OrganisationRowMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/digit/services/OrganisationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/services/OrganisationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/digit/web/controllers/OrgServicesApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/web/controllers/OrgServicesApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/enrichment/OrganisationEnrichment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/enrichment/OrganisationEnrichment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/repository/ServiceRequestRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/repository/ServiceRequestRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/repository/rowmapper/OrganisationRowMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/repository/rowmapper/OrganisationRowMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/services/OrganisationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/services/OrganisationService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

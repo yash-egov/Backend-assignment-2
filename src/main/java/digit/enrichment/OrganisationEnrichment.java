@@ -34,7 +34,6 @@ public class OrganisationEnrichment {
                organisation.getOrganisations().getFunctions().get(i).getDocuments().get(j).setDocumentUid(UUID.randomUUID().toString());
                organisation.getOrganisations().getFunctions().get(i).getDocuments().get(j).setOrgId(String.valueOf(organisation.getOrganisations().getId()));
                organisation.getOrganisations().getFunctions().get(i).getDocuments().get(j).setOrgFunctionId(organisation.getOrganisations().getFunctions().get(i).getId());
-
            }
         }
 
@@ -42,6 +41,12 @@ public class OrganisationEnrichment {
            organisation.getOrganisations().getJurisdiction().get(i).setId(UUID.randomUUID().toString());
            organisation.getOrganisations().getJurisdiction().get(i).setOrgId(String.valueOf(organisation.getOrganisations().getId()));
        }
+
+        for(int i=0;i<organisation.getOrganisations().getDocuments().size();i++) {
+            organisation.getOrganisations().getDocuments().get(i).setId(UUID.randomUUID().toString());
+            organisation.getOrganisations().getDocuments().get(i).setOrgId(String.valueOf(organisation.getOrganisations().getId()));
+        }
+
         AuditDetails auditDetails = AuditDetails.builder().createdBy(organisation.getRequestInfo().getUserInfo().getUuid()).createdTime(System.currentTimeMillis()).lastModifiedBy(organisation.getRequestInfo().getUserInfo().getUuid()).lastModifiedTime(System.currentTimeMillis()).build();
         organisation.getOrganisations().setAuditDetails(auditDetails);
         return ;

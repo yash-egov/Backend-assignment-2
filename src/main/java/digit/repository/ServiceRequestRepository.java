@@ -56,7 +56,6 @@ public class ServiceRequestRepository {
 //        return jdbcTemplate.query(query,);
         System.out.println(jdbcTemplate.query(query, preparedStmtList.toArray(), rowMapper));
         return jdbcTemplate.query(query, preparedStmtList.toArray(), rowMapper);
-//        return new ArrayList<>();
     }
 
 
