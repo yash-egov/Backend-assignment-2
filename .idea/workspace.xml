@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c785bd4c-cf19-4f58-acef-828f77b632cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/egov-persister/org-persister.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/egov-persister/org-persister.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/digit/enrichment/OrganisationEnrichment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/enrichment/OrganisationEnrichment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/digit/repository/rowmapper/OrganisationRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/repository/rowmapper/OrganisationRowMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/digit/enrichment/OrganisationEnrichment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/enrichment/OrganisationEnrichment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/digit/repository/rowmapper/OrganisationRowMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/repository/rowmapper/OrganisationRowMapper.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
