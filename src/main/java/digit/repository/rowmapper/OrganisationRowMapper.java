@@ -1,7 +1,7 @@
 package digit.repository.rowmapper;
 
 import digit.web.models.*;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
@@ -9,200 +9,165 @@ import java.sql.SQLException;
 import java.util.*;
 
 @Component
-public class OrganisationRowMapper implements RowMapper<Organisation> {
+public class OrganisationRowMapper implements ResultSetExtractor<List<Organisation>> {
 
     @Override
-    public Organisation mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Organisation organisation = new Organisation();
-        // Use maps to store unique entities by their IDs
-        Map<String, Address> addressMap = new HashMap<>();
-        Map<String, ContactDetails> contactDetailsMap = new HashMap<>();
-        Map<String, Identifier> identifierMap = new HashMap<>();
-        Map<String, Jurisdiction> jurisdictionMap = new HashMap<>();
-        Map<String, Function> functionMap = new HashMap<>();
-        Map<String, List<Document>> functionDocumentsMap = new HashMap<>();
-        Map<String, Document> documentMap = new HashMap<>();
+    public List<Organisation> extractData(ResultSet rs) throws SQLException {
+        Map<UUID, Organisation> organisationMap = new LinkedHashMap<>();
 
-        // Initialize a flag to identify when the organisation object is being populated
-        boolean isFirstRow = true;
+        while (rs.next()) {
+            UUID orgId = UUID.fromString(rs.getString("oid"));
 
-        do {
-            if (isFirstRow) {
-                // Populate the main organisation fields only once
-                organisation.setId(UUID.fromString(rs.getString("oid")));
-                organisation.setTenantId(rs.getString("otenantid"));
-                organisation.setApplicationNumber(rs.getString("oapplicationnumber"));
-                organisation.setName(rs.getString("oname"));
-                isFirstRow = false;
-            }
+            Organisation organisation = organisationMap.computeIfAbsent(orgId, id -> {
+                Organisation org = new Organisation();
+                org.setId(id);
+                try {
+                    org.setTenantId(rs.getString("otenantid"));
+                    org.setApplicationNumber(rs.getString("oapplicationnumber"));
+                    org.setName(rs.getString("oname"));
+                }catch (Exception e){
+                    System.out.println("error "+e);
+                }
+                org.setOrgAddress(new ArrayList<>());
+                org.setContactDetails(new ArrayList<>());
+                org.setIdentifiers(new ArrayList<>());
+                org.setJurisdiction(new ArrayList<>());
+                org.setFunctions(new ArrayList<>());
+                org.setDocuments(new ArrayList<>());
+                return org;
+            });
 
             // Handle Address
             String addressId = rs.getString("aid");
             if (addressId != null) {
-                addressMap.computeIfAbsent(addressId, id -> {
-                    Address addr = new Address();
-                    addr.setId(id);
-                    try {
-                        addr.setTenantId(rs.getString("atenantid"));
-                        addr.setAddressLine1(rs.getString("aaddressline1"));
-                        addr.setAddressLine2(rs.getString("aaddressline2"));
-                        addr.setCity(rs.getString("acity"));
-                        addr.setPincode(rs.getString("apincode"));
-                        addr.setOrgId(rs.getString("aorgid"));
-                        addr.setDoorNo(rs.getString("adoorno"));
-                        addr.setLandmark(rs.getString("alandmark"));
-                        addr.setBuildingName(rs.getString("abuildingname"));
-                        addr.setLatitude(rs.getDouble("alatitude"));
-                        addr.setLongitude(rs.getDouble("alongitude"));
-                        addr.setStreet(rs.getString("astreet"));
-                        addr.setDetail(rs.getString("adetail"));
-                        addr.setBoundaryType(rs.getString("aboundarytype"));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return addr;
-                });
+                Address address = new Address();
+                address.setId(addressId);
+                address.setTenantId(rs.getString("atenantid"));
+                address.setAddressLine1(rs.getString("aaddressline1"));
+                address.setAddressLine2(rs.getString("aaddressline2"));
+                address.setCity(rs.getString("acity"));
+                address.setPincode(rs.getString("apincode"));
+                address.setOrgId(rs.getString("aorgid"));
+                address.setDoorNo(rs.getString("adoorno"));
+                address.setLandmark(rs.getString("alandmark"));
+                address.setBuildingName(rs.getString("abuildingname"));
+                address.setLatitude(rs.getDouble("alatitude"));
+                address.setLongitude(rs.getDouble("alongitude"));
+                address.setStreet(rs.getString("astreet"));
+                address.setDetail(rs.getString("adetail"));
+                address.setBoundaryType(rs.getString("aboundarytype"));
+
+                if (organisation.getOrgAddress().stream().noneMatch(a -> a.getId().equals(addressId))) {
+                    organisation.getOrgAddress().add(address);
+                }
             }
 
             // Handle Contact Details
             String contactId = rs.getString("cid");
             if (contactId != null) {
-                contactDetailsMap.computeIfAbsent(contactId, id -> {
-                    ContactDetails contact = new ContactDetails();
-                    contact.setId(id);
-                    try {
-                        contact.setContactName(rs.getString("cname"));
-                        contact.setContactMobileNumber(rs.getString("cmobno"));
-                        contact.setContactEmail(rs.getString("cemail"));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return contact;
-                });
+                ContactDetails contactDetails = new ContactDetails();
+                contactDetails.setId(contactId);
+                contactDetails.setContactName(rs.getString("cname"));
+                contactDetails.setContactMobileNumber(rs.getString("cmobno"));
+                contactDetails.setContactEmail(rs.getString("cemail"));
+
+                if (organisation.getContactDetails().stream().noneMatch(c -> c.getId().equals(contactId))) {
+                    organisation.getContactDetails().add(contactDetails);
+                }
             }
 
             // Handle Identifier
             String identifierId = rs.getString("idfid");
             if (identifierId != null) {
-                identifierMap.computeIfAbsent(identifierId, id -> {
-                    Identifier idf = new Identifier();
-                    idf.setId(id);
-                    try {
-                        idf.setType(rs.getString("idftype"));
-                        idf.setValue(rs.getString("idfvalue"));
-                        idf.setIsActive(rs.getBoolean("idfisactive"));
-                        idf.setAdditionalDetails(rs.getObject("idfadditionaldetails"));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return idf;
-                });
+                Identifier identifier = new Identifier();
+                identifier.setId(identifierId);
+                identifier.setType(rs.getString("idftype"));
+                identifier.setValue(rs.getString("idfvalue"));
+                identifier.setIsActive(rs.getBoolean("idfisactive"));
+                identifier.setAdditionalDetails(rs.getObject("idfadditionaldetails"));
+
+                if (organisation.getIdentifiers().stream().noneMatch(i -> i.getId().equals(identifierId))) {
+                    organisation.getIdentifiers().add(identifier);
+                }
             }
 
             // Handle Jurisdiction
             String jurisdictionId = rs.getString("jrdid");
             if (jurisdictionId != null) {
-                jurisdictionMap.computeIfAbsent(jurisdictionId, id -> {
-                    Jurisdiction jrd = new Jurisdiction();
-                    jrd.setId(id);
-                    try {
-                        jrd.setOrgId(rs.getString("jrdorgid"));
-                        jrd.setCode(rs.getString("jrdcode"));
-                        jrd.setJurisdictionId(rs.getString("jrdjurisdictionid"));
-                        jrd.setAdditionalDetails(rs.getObject("jrdadditionaldetails"));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return jrd;
-                });
+                Jurisdiction jurisdiction = new Jurisdiction();
+                jurisdiction.setId(jurisdictionId);
+                jurisdiction.setOrgId(rs.getString("jrdorgid"));
+                jurisdiction.setCode(rs.getString("jrdcode"));
+                jurisdiction.setJurisdictionId(rs.getString("jrdjurisdictionid"));
+                jurisdiction.setAdditionalDetails(rs.getObject("jrdadditionaldetails"));
+
+                if (organisation.getJurisdiction().stream().noneMatch(j -> j.getId().equals(jurisdictionId))) {
+                    organisation.getJurisdiction().add(jurisdiction);
+                }
             }
 
             // Handle Function
             String functionId = rs.getString("fnid");
             if (functionId != null) {
-                Function function = functionMap.computeIfAbsent(functionId, id -> {
-                    Function fn = new Function();
-                    fn.setId(id);
-                    try {
-                        fn.setOrgId(rs.getString("fnorgid"));
-                        fn.setType(rs.getString("fntype"));
-                        fn.setCategory(rs.getString("fncategory"));
-                        fn.setPropertyClass(rs.getString("fnclass"));
-                        fn.setIsActive(rs.getBoolean("fnisactive"));
-                        fn.setValidFrom(rs.getBigDecimal("fnvalidfrom"));
-                        fn.setValidTo(rs.getBigDecimal("fnvalidto"));
-                        fn.setAdditionalDetails(rs.getObject("fnadditionaldetails"));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return fn;
-                });
+                Function function = organisation.getFunctions().stream()
+                        .filter(f -> f.getId().equals(functionId))
+                        .findFirst()
+                        .orElseGet(() -> {
+                            Function fn = new Function();
+                            try {
+                                fn.setId(functionId);
+                                fn.setOrgId(rs.getString("fnorgid"));
+                                fn.setType(rs.getString("fntype"));
+                                fn.setCategory(rs.getString("fncategory"));
+                                fn.setPropertyClass(rs.getString("fnclass"));
+                                fn.setIsActive(rs.getBoolean("fnisactive"));
+                                fn.setValidFrom(rs.getBigDecimal("fnvalidfrom"));
+                                fn.setValidTo(rs.getBigDecimal("fnvalidto"));
+                                fn.setAdditionalDetails(rs.getObject("fnadditionaldetails"));
+                            }catch (Exception e){
+                                System.out.println("erorr "+e);
+                            }
+                            fn.setDocuments(new ArrayList<>());
+                            organisation.getFunctions().add(fn);
+                            return fn;
+                        });
 
                 // Handle Documents for Function
                 String documentId = rs.getString("docid");
-                String documentFnId= rs.getString("docorgfnid");
-                if (documentId != null  &&  documentFnId!=null && functionId.equals(documentFnId)) {
-                    Document document = functionDocumentsMap
-                            .computeIfAbsent(functionId, k -> new ArrayList<>())
-                            .stream()
-                            .filter(doc -> documentId.equals(doc.getId()))
-                            .findAny()
-                            .orElseGet(() -> {
-                                Document doc = new Document();
-                                doc.setId(documentId);
-                                try {
-                                    doc.setOrgId(rs.getString("docorgid"));
-                                    doc.setOrgFunctionId(rs.getString("docorgfnid"));
-                                    doc.setDocumentType(rs.getString("docdoctype"));
-                                    doc.setFileStore(rs.getString("docfilestore"));
-                                    doc.setDocumentUid(rs.getString("docdocuid"));
-                                    doc.setAdditionalDetails(rs.getObject("docadditionaldetails"));
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                functionDocumentsMap.get(functionId).add(doc);
-                                return doc;
-                            });
+                String documentFnId = rs.getString("docorgfnid");
+                if (documentId != null && documentFnId != null && functionId.equals(documentFnId)) {
+                    Document document = new Document();
+                    document.setId(documentId);
+                    document.setOrgId(rs.getString("docorgid"));
+                    document.setOrgFunctionId(rs.getString("docorgfnid"));
+                    document.setDocumentType(rs.getString("docdoctype"));
+                    document.setFileStore(rs.getString("docfilestore"));
+                    document.setDocumentUid(rs.getString("docdocuid"));
+                    document.setAdditionalDetails(rs.getObject("docadditionaldetails"));
+
+                    if (function.getDocuments().stream().noneMatch(d -> d.getId().equals(documentId))) {
+                        function.getDocuments().add(document);
+                    }
                 }
             }
 
             // Handle Organisation Documents
             String documentId1 = rs.getString("docid");
             if (documentId1 != null && rs.getString("docorgfnid") == null) {
-                documentMap.computeIfAbsent(documentId1, id -> {
-                    Document doc = new Document();
-                    doc.setId(id);
-                    try {
-                        doc.setOrgId(rs.getString("docorgid"));
-                        doc.setDocumentType(rs.getString("docdoctype"));
-                        doc.setFileStore(rs.getString("docfilestore"));
-                        doc.setDocumentUid(rs.getString("docdocuid"));
-                        doc.setAdditionalDetails(rs.getObject("docadditionaldetails"));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return doc;
-                });
+                Document document = new Document();
+                document.setId(documentId1);
+                document.setOrgId(rs.getString("docorgid"));
+                document.setDocumentType(rs.getString("docdoctype"));
+                document.setFileStore(rs.getString("docfilestore"));
+                document.setDocumentUid(rs.getString("docdocuid"));
+                document.setAdditionalDetails(rs.getObject("docadditionaldetails"));
+
+                if (organisation.getDocuments().stream().noneMatch(d -> d.getId().equals(documentId1))) {
+                    organisation.getDocuments().add(document);
+                }
             }
-
-        } while (rs.next());
-
-        // Set lists from the accumulated maps
-        organisation.setOrgAddress(new ArrayList<>(addressMap.values()));
-        organisation.setContactDetails(new ArrayList<>(contactDetailsMap.values()));
-        organisation.setIdentifiers(new ArrayList<>(identifierMap.values()));
-        organisation.setJurisdiction(new ArrayList<>(jurisdictionMap.values()));
-
-        // Add functions and their documents
-        List<Function> functions = new ArrayList<>(functionMap.values());
-        for (Function function : functions) {
-            function.setDocuments(functionDocumentsMap.getOrDefault(function.getId(), Collections.emptyList()));
         }
-        organisation.setFunctions(functions);
 
-        organisation.setDocuments(new ArrayList<>(documentMap.values()));
-
-        return organisation;
+        return new ArrayList<>(organisationMap.values());
     }
 }
-
