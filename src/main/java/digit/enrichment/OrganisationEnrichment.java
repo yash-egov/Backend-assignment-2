@@ -43,7 +43,7 @@ public class OrganisationEnrichment {
        }
 
         for(int i=0;i<organisation.getOrganisations().getDocuments().size();i++) {
-            organisation.getOrganisations().getDocuments().get(i).setId(UUID.randomUUID().toString());
+            organisation.getOrganisations().getDocuments().get(i).setDocumentUid(UUID.randomUUID().toString());
             organisation.getOrganisations().getDocuments().get(i).setOrgId(String.valueOf(organisation.getOrganisations().getId()));
         }
 

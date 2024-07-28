@@ -104,3 +104,14 @@ serviceMaps:
             - jsonPath: $.organisations..jurisdiction.*.code
             - jsonPath: $.organisations..jurisdiction.*.jurisdictionId
             - jsonPath: $.organisations..jurisdiction.*.additionalDetails
+
+        - query: INSERT INTO document(id, organisation_id,org_function_id ,document_type, file_store, document_uid, additional_details) VALUES (?,?, ?, ?, ?, ?, hstore_to_jsonb(?));
+          basePath: organisations.documents.*
+          jsonMaps:
+            - jsonPath: $.organisations.documents.*.id
+            - jsonPath: $.organisations.documents.*.orgId
+            - jsonPath: $.organisations.documents.*.orgFunctionId
+            - jsonPath: $.organisations.documents.*.documentType
+            - jsonPath: $.organisations.documents.*.fileStore
+            - jsonPath: $.organisations.documents.*.documentUid
+            - jsonPath: $.organisations.documents.*.additionalDetails
