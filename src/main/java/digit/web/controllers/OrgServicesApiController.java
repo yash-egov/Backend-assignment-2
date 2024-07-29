@@ -44,43 +44,39 @@ import java.util.Optional;
 @RequestMapping("")
 public class OrgServicesApiController {
 
-    @Autowired
-    private final OrganisationService organisationService;
 
+    private final OrganisationService organisationService;
 
 
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
 
-    @Autowired
+
     Producer producer;
 
-    @Autowired
+
     private ResponseInfoFactory responseInfoFactory;
 
-    @Autowired
-    public OrgServicesApiController(OrganisationService organisationService, ObjectMapper objectMapper, HttpServletRequest request) {
+
+    public OrgServicesApiController(OrganisationService organisationService, ObjectMapper objectMapper, HttpServletRequest request, Producer producer, ResponseInfoFactory responseInfoFactory) {
         this.organisationService = organisationService;
         this.objectMapper = objectMapper;
         this.request = request;
+        this.producer = producer;
+        this.responseInfoFactory = responseInfoFactory;
     }
 
     @RequestMapping(value = "/org-services/organisation/v1/_create", method = RequestMethod.POST)
     public ResponseEntity<OrgResponse> orgServicesOrganisationV1CreatePost(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @RequestBody OrgRequest body) {
-        System.out.println("before -> " + body.getOrganisations());
 
-        System.out.println("after -> " + body.getOrganisations());
 
-        try {
-            Organisation organisation = organisationService.registerOrganisation(body);
-            List<Organisation>allOrganisations=List.of(organisation);
-            ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(body.getRequestInfo(), true);
-            OrgResponse response = OrgResponse.builder().organisations(allOrganisations).responseInfo(responseInfo).build();
-            return new ResponseEntity<OrgResponse>(response, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return new ResponseEntity<OrgResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Organisation organisation = organisationService.registerOrganisation(body);
+        List<Organisation> allOrganisations = List.of(organisation);
+        ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(body.getRequestInfo(), true);
+        OrgResponse response = OrgResponse.builder().organisations(allOrganisations).responseInfo(responseInfo).build();
+        return new ResponseEntity<OrgResponse>(response, HttpStatus.ACCEPTED);
+
     }
 
 

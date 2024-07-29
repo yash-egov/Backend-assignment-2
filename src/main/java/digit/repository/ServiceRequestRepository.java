@@ -32,31 +32,26 @@ public class ServiceRequestRepository {
 
     private RestTemplate restTemplate;
 
-    @Autowired
+
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private OrganisationsQueryBuilder queryBuilder;
 
-    @Autowired
     private OrganisationRowMapper rowMapper;
 
-    @Autowired
-    public ServiceRequestRepository(ObjectMapper mapper, RestTemplate restTemplate) {
+
+    public ServiceRequestRepository(ObjectMapper mapper, RestTemplate restTemplate, JdbcTemplate jdbcTemplate, OrganisationRowMapper rowMapper) {
         this.mapper = mapper;
         this.restTemplate = restTemplate;
+        this.jdbcTemplate = jdbcTemplate;
+        this.rowMapper = rowMapper;
     }
 
     public List<Organisation> getOrganisations(OrgSearchCriteria searchCriteria) {
         List<Object> preparedStmtList = new ArrayList<>();
-        System.out.println("Inside Service repository ");
-        String query = queryBuilder.getOrganisationSearchQuery(searchCriteria, preparedStmtList);
-//        log.info("Final query: " + query);
-        System.out.println("Query " + query);
-        System.out.println(jdbcTemplate.query(query, preparedStmtList.toArray(), rowMapper));
+        String query = OrganisationsQueryBuilder.getOrganisationSearchQuery(searchCriteria, preparedStmtList);
+
         return jdbcTemplate.query(query, preparedStmtList.toArray(), rowMapper);
     }
-
 
 
     public Object fetchResult(StringBuilder uri, Object request) {
@@ -64,11 +59,11 @@ public class ServiceRequestRepository {
         Object response = null;
         try {
             response = restTemplate.postForObject(uri.toString(), request, Map.class);
-        }catch(HttpClientErrorException e) {
-            log.error(EXTERNAL_SERVICE_EXCEPTION,e);
+        } catch (HttpClientErrorException e) {
+            log.error(EXTERNAL_SERVICE_EXCEPTION, e);
             throw new ServiceCallException(e.getResponseBodyAsString());
-        }catch(Exception e) {
-            log.error(SEARCHER_SERVICE_EXCEPTION,e);
+        } catch (Exception e) {
+            log.error(SEARCHER_SERVICE_EXCEPTION, e);
         }
 
         return response;

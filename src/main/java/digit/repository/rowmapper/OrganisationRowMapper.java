@@ -25,8 +25,8 @@ public class OrganisationRowMapper implements ResultSetExtractor<List<Organisati
                     org.setTenantId(rs.getString("otenantid"));
                     org.setApplicationNumber(rs.getString("oapplicationnumber"));
                     org.setName(rs.getString("oname"));
-                }catch (Exception e){
-                    System.out.println("error "+e);
+                } catch (Exception e) {
+                    System.out.println("error " + e);
                 }
                 org.setOrgAddress(new ArrayList<>());
                 org.setContactDetails(new ArrayList<>());
@@ -124,8 +124,8 @@ public class OrganisationRowMapper implements ResultSetExtractor<List<Organisati
                                 fn.setValidFrom(rs.getBigDecimal("fnvalidfrom"));
                                 fn.setValidTo(rs.getBigDecimal("fnvalidto"));
                                 fn.setAdditionalDetails(rs.getObject("fnadditionaldetails"));
-                            }catch (Exception e){
-                                System.out.println("erorr "+e);
+                            } catch (Exception e) {
+                                System.out.println("erorr " + e);
                             }
                             fn.setDocuments(new ArrayList<>());
                             organisation.getFunctions().add(fn);

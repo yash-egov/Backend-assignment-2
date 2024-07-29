@@ -1,5 +1,6 @@
 package digit.services;
 
+import digit.config.Configuration;
 import digit.enrichment.OrganisationEnrichment;
 import digit.kafka.Producer;
 import digit.repository.ServiceRequestRepository;
@@ -15,22 +16,29 @@ import java.util.UUID;
 @Service
 public class OrganisationService {
 
-    @Autowired
-    private OrganisationEnrichment enrichmentUtil;
 
-    @Autowired
     private Producer producer;
 
-    @Autowired
+
     private ServiceRequestRepository serviceRequestRepository;
+
+
+    private Configuration config;
+
+    public OrganisationService(Producer producer, ServiceRequestRepository serviceRequestRepository, Configuration config) {
+        this.producer = producer;
+        this.serviceRequestRepository = serviceRequestRepository;
+        this.config = config;
+    }
 
     public Organisation registerOrganisation(OrgRequest body) {
         OrganisationEnrichment.enrichOrganisation(body);
-        producer.push("save-org-application", body);
+        System.out.println(config.getKafkaCreateTopic());
+        producer.push(config.getKafkaCreateTopic(), body);
         return body.getOrganisations();
     }
 
-    public  List<Organisation> searchOrganisations(OrgSearchCriteria body) {
+    public List<Organisation> searchOrganisations(OrgSearchCriteria body) {
         List<Organisation> organisations = serviceRequestRepository.getOrganisations(body);
         return organisations;
     }

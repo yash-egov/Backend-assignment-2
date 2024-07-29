@@ -6,12 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="c785bd4c-cf19-4f58-acef-828f77b632cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/digit/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/config/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/digit/enrichment/OrganisationEnrichment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/enrichment/OrganisationEnrichment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/digit/repository/ServiceRequestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/repository/ServiceRequestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/digit/repository/querybuilder/OrganisationsQueryBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/repository/querybuilder/OrganisationsQueryBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/digit/repository/rowmapper/OrganisationRowMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/repository/rowmapper/OrganisationRowMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/digit/services/OrganisationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/services/OrganisationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/digit/web/controllers/OrgServicesApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/digit/web/controllers/OrgServicesApiController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/config/Configuration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/config/Configuration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/enrichment/OrganisationEnrichment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/enrichment/OrganisationEnrichment.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/digit/repository/ServiceRequestRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/repository/ServiceRequestRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/repository/querybuilder/OrganisationsQueryBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/repository/querybuilder/OrganisationsQueryBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/digit/repository/rowmapper/OrganisationRowMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/repository/rowmapper/OrganisationRowMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/services/OrganisationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/services/OrganisationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/digit/web/controllers/OrgServicesApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/digit/web/controllers/OrgServicesApiController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +65,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/admin1/Downloads/back_assignment"
+    "last_opened_file_path": "/home/admin1/Downloads/back_assignment",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
